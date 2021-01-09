@@ -1,0 +1,45 @@
+<script>
+  export let limite = "limite";
+  export let loading = "loading";
+  export const mostrarMenos = "mostrarMenos";
+  export const mostrarMas = "mostrarMas";
+</script>
+
+<div class="container mb-4">
+  <div class="row">
+    <div class="col text-end">
+      {#if limite >90 || loading}
+      <button class="btn btn-info btn-exchange disabled" @click="{mostrarMas}">
+        View more
+      </button>
+      {:else}
+      <button class="btn btn-info btn-exchange" @click="{mostrarMas}">
+        View more
+      </button>
+      {/if}
+    </div>
+    <div class="col text-start">
+      {#if limite<=10 || loading}
+      <button
+        class="btn btn-info btn-exchange disabled"
+        @click="{mostrarMenos}"
+      >
+        View more
+      </button>
+      {:else}
+
+      <button class="btn btn-info btn-exchange" @click="{mostrarMenos}">
+        View more
+      </button>
+      {/if}
+    </div>
+  </div>
+</div>
+
+<style>
+  .btn-exchange {
+    color: white;
+    font-weight: bold;
+    border-radius: 50px;
+  }
+</style>

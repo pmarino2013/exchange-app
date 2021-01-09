@@ -1,5 +1,9 @@
 <script>
   export let datos = "datos";
+
+  const iconos = (datos) => {
+    return `https://static.coincap.io/assets/icons/${datos.toLowerCase()}@2x.png`;
+  };
 </script>
 <div class="container table-style mb-4">
   <div class="row header-style">
@@ -15,10 +19,10 @@
     <div class="col text-center d-none d-md-block">
       <span><b>Market Cap</b></span>
     </div>
-    <div class="col text-center d-none d-md-block">
+    <div class="col text-center d-none d-md-none d-lg-block">
       <span><b>VWAP (24Hr)</b></span>
     </div>
-    <div class="col text-center d-none d-md-block">
+    <div class="col text-center d-none d-md-none d-lg-block">
       <span><b>Supply</b></span>
     </div>
     <div class="col text-center d-none d-md-block">
@@ -35,6 +39,7 @@
       <span>{dato.rank}</span>
     </div>
     <div class="col">
+      <img src="{iconos(dato.symbol)}" alt="{dato.name}" />
       <span>{dato.name}</span><br />
       <small class="text-muted">{dato.symbol}</small>
     </div>
@@ -44,10 +49,10 @@
     <div class="col text-end d-none d-md-block">
       <span>$ {Number(dato.marketCapUsd).toFixed(2) }</span>
     </div>
-    <div class="col text-end d-none d-md-block">
+    <div class="col text-end d-none d-md-none d-lg-block">
       <span>$ {Number(dato.vwap24Hr).toFixed(2)}</span>
     </div>
-    <div class="col text-end d-none d-md-block">
+    <div class="col text-end d-none d-md-none d-lg-block">
       <span>{Number(dato.supply).toFixed(2)}</span>
     </div>
     <div class="col text-end d-none d-md-block">
@@ -76,7 +81,7 @@
     background-color: rgba(231, 226, 226, 0.938);
   }
   .header-style .col {
-    height: 40px;
+    height: 50px;
     padding-top: 5px;
   }
   .fila-style .col,
@@ -86,14 +91,17 @@
 
     border-top: 1px solid rgb(199, 196, 196);
   }
+  .fila-style img {
+    height: 20px;
+  }
 
-  @media (min-width: 360px) {
+  @media (max-width: 768px) {
     span {
       font-size: 13px;
     }
   }
 
-  @media (min-width: 1092px) {
+  @media (max-width: 1092px) {
     span {
       font-size: 14px;
     }

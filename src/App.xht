@@ -1,10 +1,10 @@
 <script>
   import Navbar from "./component/Navbar.xht";
   import Tabla from "./component/tabla.xht";
+  import BotonView from "./component/BotonView.xht";
   let datos;
   let limite = 10;
-  let btnMore = true;
-  let btnLess = false;
+
   let loading = true;
   function onMount() {
     getData();
@@ -48,47 +48,17 @@
 
 <Tabla datos="{datos}" />
 
-<div class="container mb-4">
-  <div class="row">
-    <div class="col text-end">
-      {#if limite >90 || loading}
-      <button class="btn btn-info btn-exchange disabled" @click="{mostrarMas}">
-        View more
-      </button>
-      {:else}
-      <button class="btn btn-info btn-exchange" @click="{mostrarMas}">
-        View more
-      </button>
-      {/if}
-    </div>
-    <div class="col text-start">
-      {#if limite<=10 || loading}
-      <button
-        class="btn btn-info btn-exchange disabled"
-        @click="{mostrarMenos}"
-      >
-        View more
-      </button>
-      {:else}
-
-      <button class="btn btn-info btn-exchange" @click="{mostrarMenos}">
-        View more
-      </button>
-      {/if}
-    </div>
-  </div>
-</div>
+<BotonView
+  limite="{limite}"
+  loading="{loading}"
+  mostrarMas="{mostrarMas}"
+  mostrarMenos="{mostrarMenos}"
+/>
 
 <style>
   .datos-style {
     height: 35vh;
     background: linear-gradient(to right, rgb(63, 81, 181), rgb(100, 181, 246))
       rgb(255, 255, 255) !important;
-  }
-
-  .btn-exchange {
-    color: white;
-    font-weight: bold;
-    border-radius: 50px;
   }
 </style>
