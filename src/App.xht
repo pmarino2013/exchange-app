@@ -2,12 +2,23 @@
   import Navbar from "./component/Navbar.xht";
   import Tabla from "./component/tabla.xht";
   import BotonView from "./component/BotonView.xht";
+  import Hero from "./component/Hero.xht";
+
   let datos;
   let limite = 10;
+  let tiempo;
 
   let loading = true;
   function onMount() {
     getData();
+    actualizarDatos();
+  }
+
+  function actualizarDatos() {
+    tiempo = setInterval(getData, 5000);
+  }
+  function onDestroy() {
+    clearInterval(tiempo);
   }
   const getData = async () => {
     loading = true;
@@ -16,7 +27,7 @@
         `https://api.coincap.io/v2/assets?limit=${limite}`
       );
       const data = await resp.json();
-      //   console.log(data.data);
+      // console.log(data.data.length);
       datos = data.data;
 
       loading = false;
@@ -39,12 +50,7 @@
   };
 </script>
 <Navbar />
-
-<div class="container-fluid datos-style">
-  <div class="row">
-    <div class="col"></div>
-  </div>
-</div>
+<Hero />
 
 <Tabla datos="{datos}" />
 
@@ -55,10 +61,4 @@
   mostrarMenos="{mostrarMenos}"
 />
 
-<style>
-  .datos-style {
-    height: 35vh;
-    background: linear-gradient(to right, rgb(63, 81, 181), rgb(100, 181, 246))
-      rgb(255, 255, 255) !important;
-  }
-</style>
+<style></style>

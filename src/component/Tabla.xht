@@ -1,13 +1,14 @@
 <script>
   export let datos = "datos";
 
+  //Función para generar iconos por cada crypromoneda
   const iconos = (datos) => {
     return `https://static.coincap.io/assets/icons/${datos.toLowerCase()}@2x.png`;
   };
 </script>
-<div class="container table-style mb-4">
+<div class="container table-style">
   <div class="row header-style">
-    <div class="col">
+    <div class="col d-none d-md-block">
       <span><b>Rank</b></span>
     </div>
     <div class="col">
@@ -19,10 +20,10 @@
     <div class="col text-center d-none d-md-block">
       <span><b>Market Cap</b></span>
     </div>
-    <div class="col text-center d-none d-md-none d-lg-block">
+    <div class="col text-center text-md-end d-none d-md-none d-lg-block">
       <span><b>VWAP (24Hr)</b></span>
     </div>
-    <div class="col text-center d-none d-md-none d-lg-block">
+    <div class="col text-center text-md-end d-none d-md-none d-lg-block">
       <span><b>Supply</b></span>
     </div>
     <div class="col text-center d-none d-md-block">
@@ -35,18 +36,18 @@
   </div>
   {#each datos as dato}
   <div class="row fila-style">
-    <div class="col text-center">
+    <div class="col ancho-rank text-center d-none d-md-block">
       <span>{dato.rank}</span>
     </div>
-    <div class="col">
+    <div class="col-2 ancho-nombre">
       <img src="{iconos(dato.symbol)}" alt="{dato.name}" />
       <span>{dato.name}</span><br />
       <small class="text-muted">{dato.symbol}</small>
     </div>
-    <div class="col text-end">
+    <div class="col text-end price-style">
       <span>$ {Number(dato.priceUsd).toFixed(2) }</span><br />
     </div>
-    <div class="col text-end d-none d-md-block">
+    <div class="col-2 ancho-nombre text-end d-none d-md-block">
       <span>$ {Number(dato.marketCapUsd).toFixed(2) }</span>
     </div>
     <div class="col text-end d-none d-md-none d-lg-block">
@@ -55,10 +56,10 @@
     <div class="col text-end d-none d-md-none d-lg-block">
       <span>{Number(dato.supply).toFixed(2)}</span>
     </div>
-    <div class="col text-end d-none d-md-block">
+    <div class="col-2 ancho-nombre text-end d-none d-md-block">
       <span>$ {Number(dato.volumeUsd24Hr).toFixed(2)}</span>
     </div>
-    <div class="col text-end">
+    <div class="col text-center">
       <span>{Number(dato.changePercent24Hr).toFixed(2)}%</span>
     </div>
   </div>
@@ -67,14 +68,20 @@
 
 <style>
   .table-style {
+    position: relative;
+    top: -150px;
+    background-color: white;
     border: 1px solid white;
     border-radius: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    -webkit-box-shadow: 0px 10px 15px 4px #cbcbcb;
-    box-shadow: 0px 10px 15px 4px #cbcbcb;
+    -webkit-box-shadow: 0px 12px 15px 0px #b9b9b9;
+    box-shadow: 0px 12px 15px 0px #b9b9b9;
+    /* -webkit-box-shadow: 0px 10px 15px 4px #cbcbcb;
+    box-shadow: 0px 10px 15px 4px #cbcbcb; */
     /* -webkit-box-shadow: 0px 0px 14px 3px #b6b6b6;
     box-shadow: 0px 0px 14px 3px #b6b6b6; */
+    font-size: 13px;
   }
   .header-style {
     border-radius: 5px;
@@ -87,12 +94,21 @@
   .fila-style .col,
   .fila-style .col-2 {
     height: 60px;
-    padding: 5px 10px;
+    padding: 5px 5px;
 
     border-top: 1px solid rgb(199, 196, 196);
   }
+  .ancho-nombre {
+    width: 140px;
+  }
+  .price-style {
+    font-size: 14px;
+  }
   .fila-style img {
     height: 20px;
+  }
+  .fila-style small {
+    font-size: 12px;
   }
 
   @media (max-width: 768px) {
@@ -103,7 +119,7 @@
 
   @media (max-width: 1092px) {
     span {
-      font-size: 14px;
+      font-size: 13px;
     }
   }
 </style>
