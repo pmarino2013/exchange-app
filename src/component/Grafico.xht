@@ -1,0 +1,80 @@
+<script>
+  import moment from "moment/dist/moment.js";
+  let datos = [];
+  let labels = [];
+  let valores = [];
+  const getDatos = async () => {
+    try {
+      const resp = await fetch(
+        "https://api.coincap.io/v2/assets/bitcoin/history?interval=d1&start=1609459200000&end=1610505330738"
+      );
+      const data = await resp.json();
+      datos = data.data;
+
+      for (let index = 1; index < datos.length; index++) {
+        labels.push(moment(datos[index].date).format("L"));
+        valores.push(Number(datos[index].priceUsd).toFixed(2));
+      }
+      console.log(labels);
+      console.log(valores);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  function crearGrafico() {
+    let ctx = document.getElementById("myChart");
+    let myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        //horas del dia
+        // labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: labels,
+        datasets: [
+          {
+            label: "BTC 12/01/2021",
+            // data: [12, 19, 3, 5, 2, 3], //valor de la criptomoneda
+            data: valores,
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(255, 159, 64, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+  }
+
+  function onMount() {
+    getDatos();
+    crearGrafico();
+  }
+</script>
+
+<canvas id="myChart" width="400" height="400"></canvas>
+
+<style></style>

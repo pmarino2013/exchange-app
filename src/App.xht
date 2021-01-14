@@ -1,64 +1,12 @@
 <script>
-  import Navbar from "./component/Navbar.xht";
-  import Tabla from "./component/tabla.xht";
-  import BotonView from "./component/BotonView.xht";
-  import Hero from "./component/Hero.xht";
-
-  let datos;
-  let limite = 10;
-  let tiempo;
-
-  let loading = true;
-  function onMount() {
-    getData();
-    actualizarDatos();
-  }
-
-  function actualizarDatos() {
-    tiempo = setInterval(getData, 5000);
-  }
-  function onDestroy() {
-    clearInterval(tiempo);
-  }
-  const getData = async () => {
-    loading = true;
-    try {
-      const resp = await fetch(
-        `https://api.coincap.io/v2/assets?limit=${limite}`
-      );
-      const data = await resp.json();
-      // console.log(data.data.length);
-      datos = data.data;
-
-      loading = false;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const mostrarMas = () => {
-    if (datos.length <= 90) {
-      limite = limite + 10;
-      getData();
-    }
-  };
-  const mostrarMenos = () => {
-    if (datos.length > 10) {
-      limite = limite - 10;
-      getData();
-    }
-  };
+  import { Route } from "malinajs-router";
+  import Home from "./view/Home.xht";
+  import CoinDetail from "./view/CoinDetail.xht";
 </script>
-<Navbar />
-<Hero />
 
-<Tabla datos="{datos}" />
-
-<BotonView
-  limite="{limite}"
-  loading="{loading}"
-  mostrarMas="{mostrarMas}"
-  mostrarMenos="{mostrarMenos}"
-/>
+<Route>
+  <Route exact path="/"><Home /></Route>
+  <Route exact path="/coindetail"><CoinDetail /></Route>
+</Route>
 
 <style></style>

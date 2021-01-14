@@ -60,7 +60,9 @@
       <span>$ {Number(dato.volumeUsd24Hr).toFixed(2)}</span>
     </div>
     <div class="col text-center">
-      <span>{Number(dato.changePercent24Hr).toFixed(2)}%</span>
+      <span class="{dato.changePercent24Hr<0?'red':'green'}">
+        {Number(dato.changePercent24Hr).toFixed(2)}%
+      </span>
     </div>
   </div>
   {/each}
@@ -109,6 +111,13 @@
   }
   .fila-style small {
     font-size: 12px;
+  }
+
+  .red {
+    color: rgb(244, 67, 54);
+  }
+  .green {
+    color: rgb(24, 198, 131);
   }
 
   @media (max-width: 768px) {
