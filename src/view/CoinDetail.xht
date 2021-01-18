@@ -1,7 +1,88 @@
 <script>
   import Navbar from "../component/Navbar.xht";
+  import SpinnerCss from "../component/SpinnerCss.xht";
+
+  const url = "https://api.coincap.io/v2";
+  const valores = window.location.search;
+  // console.log(valores);
+  const urlParams = new URLSearchParams(valores);
+  let id = urlParams.get("id");
+  console.log(id);
+
+  const now = new Date();
+  const end = now.getTime();
+  now.setDate(now.getDate() - 1);
+  const start = now.getTime();
+
+  let asset = {
+    dato: {},
+    loading: true,
+  };
+  let historial = [];
+
+  function onMount() {
+    getCoin();
+    getHistory();
+  }
+
+  const iconos = (datos) => {
+    return `https://static.coincap.io/assets/icons/${datos.toLowerCase()}@2x.png`;
+  };
+
+  const getCoin = async () => {
+    try {
+      const resp = await fetch(`${url}/assets/${id}`);
+      const data = await resp.json();
+      asset = {
+        dato: data.data,
+        loading: false,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getHistory = async () => {
+    try {
+      const resp = await fetch(
+        `${url}/assets/${id}/history?interval=h1&start=${start}&end=${end}`
+      );
+      const data = await resp.json();
+      historial = data.data;
+      console.log(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 </script>
 <Navbar />
-<h1>📈Coin Detail</h1>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>📈Coin Detail</h1>
+    </div>
+  </div>
+  <div class="row mt-5 text-center">
+    {#if asset.loading}
+    <SpinnerCss />
 
-<style></style>
+    {:else}
+    <div class="col img-align">
+      <img src="{iconos(asset.dato.symbol)}" alt="{asset.dato.name}" />
+      <h2>{asset.dato.name}</h2>
+    </div>
+    <div class="col text-coin">
+      <p><b>Symbol: </b><small>{asset.dato.symbol}</small></p>
+    </div>
+    {/if}
+  </div>
+</div>
+
+<style>
+  .text-coin {
+    text-align: start;
+  }
+  .img-align {
+    text-align: end;
+  }
+</style>

@@ -1,3 +1,31 @@
+export const getData = async () => {
+  let respuesta = {
+    datos: [],
+    loading: true,
+    error: null,
+  };
+  try {
+    const resp = await fetch(
+      `https://api.coincap.io/v2/assets?limit=${limite}`
+    );
+    const data = await resp.json();
+    // console.log(data.data.length);
+    respuesta = {
+      datos: data.data,
+      loading: false,
+      error: null,
+    };
+  } catch (error) {
+    // console.log(error);
+    respuesta = {
+      datos: [],
+      loading: false,
+      error: error,
+    };
+  }
+  return respuesta;
+};
+
 export const getAssets = async () => {
   let cantidad;
   try {
